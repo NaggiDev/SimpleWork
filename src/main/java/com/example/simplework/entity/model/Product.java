@@ -25,10 +25,22 @@ public class Product implements Serializable {
     @Column(name = "PRICE", nullable = false)
     private Double price;
 
-    @Column(name = "YEAR", nullable = false)
+    @Column(name = "MANUFACTURE_YEAR", nullable = false)
     private Date year;
 
     @Column(name = "URL", length = 500)
     private String url;
+
+    @Column(name = "PRODUCT_DESC", length = 500)
+    private String productDesc;
+
+    @Column(name = "STOCK", nullable = false)
+    private Date stock;
+
+    @Column(name = "CREATED_AT")
+    private Date createdAt;
+
+    @Column(name = "UPDATED_AT")
+    private Date updatedAt;
 
 }
