@@ -1,7 +1,6 @@
 package com.example.simplework.controller;
 
 import com.example.simplework.entity.dto.ProductDTO;
-import com.example.simplework.entity.model.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

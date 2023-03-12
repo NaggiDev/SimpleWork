@@ -17,13 +17,6 @@ import java.util.Map;
 @Slf4j
 public class ResponseFactory {
 
-    /**
-     * Replace params in message
-     *
-     * @param message
-     * @param params
-     * @return
-     */
     private String replaceParams(String message, Map<String, String> params) {
         // replace params in message
         if (!CollectionUtils.isEmpty(params)) {
