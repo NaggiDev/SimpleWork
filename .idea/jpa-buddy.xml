@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig" ddlActionDbType="maria">
+    <option name="defaultUnitInitialized" value="true" />
+    <option name="renamerInitialized" value="true" />
+    <option name="reverseEngineeringLastDbConnectionId" value="6c764946-1bac-49ff-a7e5-7074289ea2bf" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/com/example/simplework" />
+  </component>
+</project>
