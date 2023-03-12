@@ -6,19 +6,16 @@ import com.example.simplework.factory.response.GeneralResponse;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +31,72 @@ public class Common {
     @Autowired
     private ObjectMapper objectMapper;
 
+    public static boolean checkConsecutive(String str) {
+
+        String[] array = str.split("");
+        int size = array.length;
+
+        int[] array1 = new int[size];
+        for (int i = 0; i < size; i++) {
+            array1[i] = Integer.parseInt(array[i]);
+        }
+
+        boolean result = true;
+        for (int i = 0; i < size - 1; i++) {
+            if ((array1[i + 1] - array1[i]) != 1) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static boolean checkSameDigits(String str) {
+        char[] s = str.toCharArray();
+        int l = s.length;
+        for (int i = 1; i < l; i++) {
+            if (s[i] - s[i - 1] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static <T> Predicate<T> distinctByKey(
+            Function<? super T, ?> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
+    public static <T> T jsonToObject(String jsonData, Class<T> classOutput) {
+        try {
+            ObjectMapper mapper = new ObjectMapper()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            return mapper.readValue(jsonData, classOutput);
+        } catch (Exception ex) {
+            return jsonToObjectFronGson(jsonData, classOutput);
+        }
+    }
+
+    private static <T> T jsonToObjectFronGson(String jsonData, Class<T> classOutput) {
+        try {
+            Gson gson = new Gson();
+            return gson.fromJson(jsonData, classOutput);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return null;
+    }
+
+    public static String gsonToJson(Object classInput) {
+        try {
+            Gson gsons = new Gson();
+            return gsons.toJson(classInput);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+        return null;
+    }
 
     public List<String> stringToList(String input, String separator) {
         return Arrays.asList(StringUtils.split(input, separator));
@@ -272,78 +335,11 @@ public class Common {
         return null;
     }
 
-    public static boolean checkConsecutive(String str) {
-
-        String[] array = str.split("");
-        int size = array.length;
-
-        int[] array1 = new int[size];
-        for (int i = 0; i < size; i++) {
-            array1[i] = Integer.parseInt(array[i]);
-        }
-
-        boolean result = true;
-        for (int i = 0; i < size - 1; i++) {
-            if ((array1[i + 1] - array1[i]) != 1) {
-                result = false;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public static boolean checkSameDigits(String str) {
-        char[] s = str.toCharArray();
-        int l = s.length;
-        for (int i = 1; i < l; i++) {
-            if (s[i] - s[i - 1] != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public String formatMsisdnHidden(String msisdn) {
         if (StringUtils.isEmpty(msisdn))
             return msisdn;
         String regex = "(\\(*)(\\[*)(\\d{2})(\\d{3})(\\d{3})(\\d{3})(\\]*)(\\)*)";
         String replacement = "0$4-xxx-$6";
         return msisdn.replaceFirst(regex, replacement);
-    }
-
-    public static <T> Predicate<T> distinctByKey(
-            Function<? super T, ?> keyExtractor) {
-        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
-        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-    }
-
-    public static <T> T jsonToObject(String jsonData, Class<T> classOutput) {
-        try {
-            ObjectMapper mapper = new ObjectMapper()
-                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return mapper.readValue(jsonData, classOutput);
-        } catch (Exception ex) {
-            return jsonToObjectFronGson(jsonData, classOutput);
-        }
-    }
-
-    private static <T> T jsonToObjectFronGson(String jsonData, Class<T> classOutput) {
-        try {
-            Gson gson = new Gson();
-            return gson.fromJson(jsonData, classOutput);
-        } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
-        }
-        return null;
-    }
-
-    public static String gsonToJson(Object classInput) {
-        try {
-            Gson gsons = new Gson();
-            return gsons.toJson(classInput);
-        } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
-        }
-        return null;
     }
 }

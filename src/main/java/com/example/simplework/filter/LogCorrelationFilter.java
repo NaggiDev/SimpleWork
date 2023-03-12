@@ -23,8 +23,8 @@ import java.io.IOException;
 @Order(1)
 public class LogCorrelationFilter extends OncePerRequestFilter {
 
-    private final AppConfig appConfig;
     final ObjectMapper om;
+    private final AppConfig appConfig;
 
     public LogCorrelationFilter(AppConfig appConfig, ObjectMapper om) {
         this.appConfig = appConfig;

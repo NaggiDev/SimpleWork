@@ -11,17 +11,17 @@ import lombok.Setter;
 @Setter
 public class ExternalServiceException extends RuntimeException {
 
-  private ResponseStatusCodeEnum code;
-  private GeneralResponse response;
-  private String message;
+    private ResponseStatusCodeEnum code;
+    private GeneralResponse response;
+    private String message;
 
-  public ExternalServiceException(String message) {
-    super(message);
-  }
+    public ExternalServiceException(String message) {
+        super(message);
+    }
 
-  public ExternalServiceException(ResponseStatusCodeEnum code, GeneralResponse response) {
-    super();
-    this.code = code;
-    this.response = response;
-  }
+    public ExternalServiceException(ResponseStatusCodeEnum code, GeneralResponse response) {
+        super();
+        this.code = code;
+        this.response = response;
+    }
 }

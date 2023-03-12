@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@SuppressWarnings({"squid:S3776","squid:S1186"})
+@SuppressWarnings({"squid:S3776", "squid:S1186"})
 @Configuration
 @Slf4j
 @Order(4)
