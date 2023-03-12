@@ -15,7 +15,13 @@ public enum ResponseStatusCodeEnum {
      */
     SUCCESS("00", HttpStatus.OK.value()),
 
-    TIMEOUT("32", HttpStatus.OK.value());
+    TIMEOUT("32", HttpStatus.OK.value()),
+    INTERNAL_SERVER_ERROR("500", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    BAD_REQUEST("400", HttpStatus.BAD_REQUEST.value()),
+    FORBIDDEN_INVALID_KEY("403", HttpStatus.FORBIDDEN.value()),
+    FORBIDDEN_INVALID_ALG("403", HttpStatus.FORBIDDEN.value()),
+    FORBIDDEN_TOKEN_EXPIRE("403", HttpStatus.FORBIDDEN.value()),
+    FORBIDDEN_INVALID_EXPIRE("403", HttpStatus.FORBIDDEN.value());
 
     private final String code;
     private final int httpCode;

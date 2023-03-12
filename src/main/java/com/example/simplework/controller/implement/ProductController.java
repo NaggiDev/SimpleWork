@@ -1,6 +1,6 @@
 package com.example.simplework.controller.implement;
 
-import com.example.simplework.controller.ProductController;
+import com.example.simplework.controller.ProductInterface;
 import com.example.simplework.entity.dto.ProductDTO;
 import com.example.simplework.factory.response.ResponseFactory;
 import com.example.simplework.service.ProductService;
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ProductImplement implements ProductController {
+public class ProductController implements ProductInterface {
     @Autowired
     ProductService productService;
     @Autowired

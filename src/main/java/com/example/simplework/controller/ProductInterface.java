@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("${application-context-name}/v1")
-public interface ProductController {
+public interface ProductInterface {
 
     @GetMapping("/get")
-    ResponseEntity<Object> getProduct(@RequestParam Integer id, @RequestParam String name);
+    ResponseEntity<Object> getProduct(@RequestParam Integer id, @RequestParam String productName);
 
     @PostMapping("/create")
     ResponseEntity<Object> createProduct(@RequestBody ProductDTO product);

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -31,6 +32,6 @@ public class UserAccount {
     private Integer accountStatus;
 
     @Column(name = "CREATED_AT", nullable = false)
-    private Instant createdAt;
+    private Date createdAt;
 
 }
