@@ -33,4 +33,10 @@ public class UserAccount {
     @Column(name = "CREATED_AT", nullable = false)
     private Date createdAt;
 
+    @Column(name = "UPDATED_AT", nullable = false)
+    private Date updatedAt;
+
+    @Column(name = "EMAIL", length = 50)
+    private String email;
+
 }

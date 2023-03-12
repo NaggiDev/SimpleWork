@@ -34,6 +34,12 @@ public class JwtService {
         return claims.getSubject();
     }
 
+    public String getEmailFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+
+        return claims.getSubject();
+    }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
