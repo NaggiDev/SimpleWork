@@ -29,7 +29,7 @@ public class AccountController {
         // generate token
 //        String token = jwtService.generateToken(userDetails.getUsername());
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+//        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         return null;
     }
 
