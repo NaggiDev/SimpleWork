@@ -20,7 +20,7 @@ public class ProductController implements ProductInterface {
     }
 
     public ResponseEntity<Object> createProduct(ProductDTO product) {
-        return factory.success(productService.saveOrUpdate(product));
+        return factory.success(productService.createProduct(product));
     }
 
     public ResponseEntity<Object> updateProduct(Integer id, ProductDTO product) {
