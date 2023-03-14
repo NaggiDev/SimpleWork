@@ -19,17 +19,14 @@ public class ProductController implements ProductInterface {
         return factory.success(productService.getAllProduct(id, name));
     }
 
-    @Override
     public ResponseEntity<Object> createProduct(ProductDTO product) {
         return factory.success(productService.saveOrUpdate(product));
     }
 
-    @Override
     public ResponseEntity<Object> updateProduct(Integer id, ProductDTO product) {
         return factory.success(productService.updateById(id, product));
     }
 
-    @Override
     public ResponseEntity<Object> deleteProduct(Integer id) {
         productService.deleteProduct(id);
         return factory.success();

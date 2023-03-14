@@ -1,51 +1,56 @@
 package com.example.simplework.service;
 
+import com.example.simplework.entity.model.User;
+import com.example.simplework.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class JwtService {
+    private static final String HEADER = "Authorization";
+    private static final String TOKEN_PREFIX = "Bearer ";
+    @Autowired
+    JwtUtil jwtUtil;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    public String generateToken(User user) {
+        return jwtUtil.generateToken(user);
+    }
 
-    @Value("${jwt.expiration}")
-    private int expiration;
-
-    public String generateToken(String username) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expiration * 1000L);
-
-        return Jwts.builder().setSubject(username).setIssuedAt(now).setExpiration(expiryDate).signWith(SignatureAlgorithm.HS256, secret).compact();
+    public String generateToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return jwtUtil.generateToken(userDetails);
     }
 
     public Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return jwtUtil.extractAllClaims(token);
     }
 
     public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-
-        return claims.getSubject();
+        return jwtUtil.extractUsername(token);
     }
 
     public String getEmailFromToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-
-        return claims.getSubject();
+        return jwtUtil.extractEmail(token);
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return true;
+            return jwtUtil.validateToken(token);
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public String getTokenFromRequest(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(HEADER);
+        if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
+            return authorizationHeader.substring(TOKEN_PREFIX.length());
+        }
+        return null;
     }
 }

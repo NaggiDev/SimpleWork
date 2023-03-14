@@ -26,7 +26,7 @@ public class Product implements Serializable {
     private Double price;
 
     @Column(name = "MANUFACTURE_YEAR", nullable = false)
-    private Date year;
+    private Date manufactureYear;
 
     @Column(name = "URL", length = 500)
     private String url;
@@ -42,5 +42,8 @@ public class Product implements Serializable {
 
     @Column(name = "UPDATED_AT")
     private Date updatedAt;
+
+    @Column(name = "STATUS")
+    private Boolean status;
 
 }

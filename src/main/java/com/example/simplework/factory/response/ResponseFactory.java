@@ -17,6 +17,14 @@ import java.util.Map;
 @Slf4j
 public class ResponseFactory {
 
+
+    /**
+     * Replace params in message
+     *
+     * @param message
+     * @param params
+     * @return
+     */
     private String replaceParams(String message, Map<String, String> params) {
         // replace params in message
         if (!CollectionUtils.isEmpty(params)) {
@@ -33,6 +41,7 @@ public class ResponseFactory {
     public ResponseStatus parseResponseStatus(ResponseStatusCodeEnum code, Map<String, String> params) {
         ResponseStatus responseStatus = new ResponseStatus(code.getCode(), true);
         responseStatus.setMessage(replaceParams(responseStatus.getMessage(), params));
+        responseStatus.setDisplayMessage(responseStatus.getMessage());
         log.debug(responseStatus.toString());
 
         return responseStatus;
@@ -125,9 +134,17 @@ public class ResponseFactory {
         return fail(null, Object.class, code);
     }
 
-
     @CheckReturnValue
     public ResponseEntity<Object> success() {
         return success(new GeneralResponse<>());
+    }
+
+    @CheckReturnValue
+    public ResponseEntity<Object> failWithErrorData(ResponseStatusCodeEnum code, Map<String, String> map) {
+        ResponseStatus responseStatus = parseResponseStatus(code, map);
+        GeneralResponse<Object> responseObject = new GeneralResponse<>(responseStatus, null);
+        responseObject.getStatus().setCode(code.getCode(), false);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        return ResponseEntity.ok().headers(responseHeaders).body(responseObject);
     }
 }

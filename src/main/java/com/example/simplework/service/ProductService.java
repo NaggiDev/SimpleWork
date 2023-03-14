@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -22,31 +21,36 @@ public class ProductService {
         return productRepository.getAllByProductName(name);
     }
 
-    public Product saveOrUpdate(ProductDTO product) {
-        Product p = new Product();
-        p.setId(product.getId());
-        p.setProductName(product.getProductName());
-        p.setYear(Calendar.getInstance().getTime());
-        p.setPrice(product.getPrice());
-        p.setUrl(product.getUrl());
-        return productRepository.save(p);
+    private Product saveOrUpdate(Product product) {
+        product.setUpdatedAt(Calendar.getInstance().getTime());
+        return productRepository.save(product);
+    }
+
+    public Product createProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(product.getId());
+        product.setProductName(product.getProductName());
+        product.setManufactureYear(product.getManufactureYear());
+        product.setPrice(product.getPrice());
+        product.setUrl(product.getUrl());
+        product.setCreatedAt(Calendar.getInstance().getTime());
+        return saveOrUpdate(product);
     }
 
     public Product updateById(Integer id, ProductDTO productDTO) {
         Product product = productRepository.getById(id);
-        if (!Objects.isNull(product)) {
-            product.setPrice(productDTO.getPrice());
-            product.setProductName(productDTO.getProductName());
-            product.setYear(Calendar.getInstance().getTime());
-            product.setUrl(productDTO.getUrl());
-            return productRepository.save(product);
-        }
-        return product;
+        product.setPrice(productDTO.getPrice());
+        product.setProductName(productDTO.getProductName());
+        product.setManufactureYear(Calendar.getInstance().getTime());
+        product.setUrl(productDTO.getUrl());
+        return saveOrUpdate(product);
     }
 
     public void deleteProduct(Integer id) {
         try {
-            productRepository.deleteById(id);
+            Product product = productRepository.getById(id);
+            product.setStatus(false);
+            saveOrUpdate(product);
         } catch (Exception e) {
             log.info("Delete fail");
         }

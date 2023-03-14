@@ -36,7 +36,6 @@ public class LogCorrelationFilter extends OncePerRequestFilter {
         long time = System.currentTimeMillis();
 
         request = new RequestWrapper(request);
-        // String requestBody = ((RequestWrapper) request).getBody() bo luu staff log
 
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
         String uri = request.getRequestURI();
